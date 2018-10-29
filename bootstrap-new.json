@@ -1,0 +1,104 @@
+{
+  "admin": {
+    "access_log_path": "/dev/null",
+    "address": {
+      "socket_address": {
+        "address": "127.0.0.1",
+        "port_value": 19002
+      }
+    }
+  },
+  "node": {
+    "cluster": "front",
+    "id": "front"
+  },
+  "static_resources": {
+    "clusters": [
+      {
+        "name": "local_agent",
+        "connect_timeout": "1s",
+        "type": "STATIC",
+        "http2_protocol_options": {},
+        "hosts": [
+          {
+            "socket_address": {
+              "address": "127.0.0.1",
+              "port_value": 8502
+            }
+          }
+        ]
+      }
+    ],
+    "listeners": [
+      {
+        "address": {
+          "socket_address": {
+            "address": "0.0.0.0",
+            "port_value": 8090
+          }
+        },
+        "filter_chains": [
+          {
+            "filters": [
+              {
+                "name": "envoy.http_connection_manager",
+                "config": {
+                  "codec_type": "auto",
+                  "stat_prefix": "ingress_http",
+                  "route_config": {
+                    "name": "local_route",
+                    "virtual_hosts": [
+                      {
+                        "name": "backend",
+                        "domains": [
+                          "*"
+                        ],
+                        "routes": [
+                          {
+                            "match": {
+                              "prefix": "/echo"
+                            },
+                            "route": {
+                              "cluster": "service:echo"
+                            }
+                        ]
+                      }
+                    ]
+                  },
+                  "http_filters": [
+                    {
+                      "name": "envoy.router",
+                      "config": {}
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "dynamic_resources": {
+    "lds_config": {
+      "ads": {}
+    },
+    "cds_config": {
+      "ads": {}
+    },
+    "ads_config": {
+      "api_type": "GRPC",
+      "grpc_services": {
+        "initial_metadata": [
+          {
+            "key": "x-consul-token",
+            "value": ""
+          }
+        ],
+        "envoy_grpc": {
+          "cluster_name": "local_agent"
+        }
+      }
+    }
+  }
+}

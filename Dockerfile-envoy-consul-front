@@ -1,0 +1,10 @@
+FROM consul:1.3.0
+FROM envoyproxy/envoy:v1.8.0
+COPY --from=0 /bin/consul /bin/consul
+#ENTRYPOINT ["dumb-init", "consul", "connect", "envoy"]
+
+
+COPY bootstrap-new.json /etc/bootstrap-new.json
+CMD dumb-init consul connect envoy -proxy-id front -admin-bind localhost:19002 && /usr/local/bin/envoy -c /etc/bootstrap-new.json
+
+

@@ -1,3 +1,12 @@
+# Overview
+
+This application is a very basic Spring Boot 2.0 application.  It has configuration and features designed to make it discoverable in a service mesh.
+It shows how to register the application with a locally running Consul agent on port 8500.  
+
+To do this, the application makes use of the [Spring Cloud Consul](http://cloud.spring.io/spring-cloud-consul/single/spring-cloud-consul.html) project.  It is enabled via a Maven depencency.  When the application starts it registers itself with Consul -giving it a unique number after the app name.
+
+This project also makes use of the Spring Actuator project.  It is enabled via Maven dependency.  This exposes a 'health' endpoint that Consul can use to detect if the application is running. 
+
 # Build executable JAR called spring-boot-http and place in /target folder
 
 `mvn package`

@@ -1,0 +1,3 @@
+FROM envoyproxy/envoy:latest
+COPY bootstrap-new.json /etc/bootstrap-new.json
+CMD /usr/local/bin/envoy -c /etc/bootstrap-new.json
