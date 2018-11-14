@@ -3,9 +3,13 @@ spring:
     name: myApp
   cloud:
     consul:
+      enabled: true
       host: localhost
       port: 8500
       discovery:
+        enabled: true
+        register: true
         instanceId: ${spring.application.name}:${random.value}s
+        hostname: localhost
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s

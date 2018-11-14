@@ -9,7 +9,7 @@ This project also makes use of the Spring Actuator project.  It is enabled via M
 
 # Build executable JAR called spring-boot-http and place in /target folder
 
-`mvn package`
+`mvn clean && mvn package`
 
 # Build docker image
 Run this in the main project folder 'spring-boot-http')
